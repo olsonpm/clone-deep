@@ -30,6 +30,17 @@ chai.should()
 //
 
 suite('special case types', () => {
+  test('arguments', () => {
+    const args = returnArguments('a', 'b'),
+      cloneOfArgs = cloneDeep(args)
+
+    cloneOfArgs.should.deep.equal(args)
+    cloneOfArgs.should.not.equal(args)
+
+    cloneOfArgs[0] = 'c'
+    cloneOfArgs.should.not.deep.equal(args)
+  })
+
   test('array', () => {
     const pizzaToppings = ['pepperoni', 'mushroom'],
       cloneOfPizzaToppings = cloneDeep(pizzaToppings)
@@ -112,3 +123,12 @@ suite('special case types', () => {
     clonedSetOfKeys.should.not.deep.equal(setOfKeys)
   })
 })
+
+//
+//------------------//
+// Helper Functions //
+//------------------//
+
+function returnArguments() {
+  return arguments
+}
