@@ -19,10 +19,6 @@ suite('uncloneable', () => {
     const anError = new Error()
     cloneDeep(anError).should.equal(anError)
   })
-  test('function', () => {
-    const aFunction = () => {}
-    cloneDeep(aFunction).should.equal(aFunction)
-  })
   test('promise', () => {
     const aPromise = Promise.resolve()
     cloneDeep(aPromise).should.equal(aPromise)

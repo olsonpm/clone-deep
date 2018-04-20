@@ -55,15 +55,6 @@ suite('complex', () => {
     Reflect.getPrototypeOf(a).should.equal(Reflect.getPrototypeOf(b))
   })
 
-  test('object with symbol properties', () => {
-    const aSymbol = Symbol(),
-      obj = { [aSymbol]: { deep: true } },
-      cloneOfObj = cloneDeep(obj)
-
-    cloneOfObj.should.deep.equal(obj)
-    cloneOfObj[aSymbol].should.not.equal(obj[aSymbol])
-  })
-
   test('symbols are treated as primitives', () => {
     const symbol = Symbol(),
       obj = { foo: symbol }
@@ -77,34 +68,21 @@ suite('complex', () => {
   test('Map', () => {
     const aMap = new Map([['foo', 'bar']])
     aMap.set(aMap, aMap)
-    aMap.bar = 'baz'
-    aMap.circle = aMap
 
     const cloneOfAMap = cloneDeep(aMap)
     cloneOfAMap.should.not.equal(aMap)
     cloneOfAMap.get('foo').should.equal('bar')
     cloneOfAMap.get(cloneOfAMap).should.equal(cloneOfAMap)
-
-    //
-    // I couldn't find a way to test multiple properties attached to a Map
-    //   or Set
-    //
-    cloneOfAMap.bar.should.equal('baz')
-    cloneOfAMap.circle.should.equal(cloneOfAMap)
   })
 
   test('Set', () => {
     const aSet = new Set(['foo'])
     aSet.add('foo')
     aSet.add(aSet)
-    aSet.bar = 'baz'
-    aSet.circle = aSet
 
     const cloneOfASet = cloneDeep(aSet)
     cloneOfASet.should.not.equal(aSet)
     cloneOfASet.should.have.all.keys('foo', cloneOfASet)
-    cloneOfASet.bar.should.equal('baz')
-    cloneOfASet.circle.should.equal(cloneOfASet)
   })
 
   test('only enumerable symbol properties', () => {
